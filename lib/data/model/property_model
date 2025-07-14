@@ -1,0 +1,196 @@
+import 'package:get/get.dart';
+
+enum PropertyType {
+  Apartment,
+  House,
+  Villa,
+  All,
+}
+
+enum PropertyStatus {
+  Sale,
+  Rent,
+}
+
+class Property {
+  final String id;
+  final List<String> imageUrl;
+  final String title;
+  final String description;
+  final double price;
+  final String priceUnit;
+  final PropertyStatus status;
+  final PropertyType type;
+  final int beds;
+  final int baths;
+  final int receptions;
+  final double areaSqft;
+  final double pricePerSqft;
+  final String addedOn;
+  final String agentName;
+  final String agentLogoUrl;
+  final String mmpNo;
+  final String tenure;
+  final String address;
+  final String whatsappNumber;
+  final bool isPremium;
+  final bool isFeatured;
+  final RxBool isFavorite;
+
+  Property({
+    required this.id,
+    required this.imageUrl,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.priceUnit,
+    required this.status,
+    required this.type,
+    required this.beds,
+    required this.baths,
+    required this.receptions,
+    required this.areaSqft,
+    required this.pricePerSqft,
+    required this.addedOn,
+    required this.agentName,
+    required this.agentLogoUrl,
+    required this.mmpNo,
+    required this.tenure,
+    required this.address,
+    required this.whatsappNumber,
+    this.isPremium = false,
+    this.isFeatured = false,
+    bool isFavorite = false,
+  }) : isFavorite = isFavorite.obs;
+
+  Property copyWith({
+  String? id,
+  List<String>? imageUrl,
+  String? title,
+  String? description,
+  double? price,
+  String? priceUnit,
+  PropertyStatus? status,
+  PropertyType? type,
+  int? beds,
+  int? baths,
+  int? receptions,
+  double? areaSqft,
+  double? pricePerSqft,
+  String? addedOn,
+  String? agentName,
+  String? agentLogoUrl,
+  String? mmpNo,
+  String? tenure,
+  String? address,
+  String? whatsappNumber,
+  bool? isPremium,
+  bool? isFeatured,
+  bool? isFavorite,
+}) {
+  return Property(
+    id: id ?? this.id,
+    imageUrl: imageUrl ?? this.imageUrl,
+    title: title ?? this.title,
+    description: description ?? this.description,
+    price: price ?? this.price,
+    priceUnit: priceUnit ?? this.priceUnit,
+    status: status ?? this.status,
+    type: type ?? this.type,
+    beds: beds ?? this.beds,
+    baths: baths ?? this.baths,
+    receptions: receptions ?? this.receptions,
+    areaSqft: areaSqft ?? this.areaSqft,
+    pricePerSqft: pricePerSqft ?? this.pricePerSqft,
+    addedOn: addedOn ?? this.addedOn,
+    agentName: agentName ?? this.agentName,
+    agentLogoUrl: agentLogoUrl ?? this.agentLogoUrl,
+    mmpNo: mmpNo ?? this.mmpNo,
+    tenure: tenure ?? this.tenure,
+    address: address ?? this.address,
+    whatsappNumber: whatsappNumber ?? this.whatsappNumber,
+    isPremium: isPremium ?? this.isPremium,
+    isFeatured: isFeatured ?? this.isFeatured,
+    isFavorite: isFavorite ?? this.isFavorite.value, 
+  );
+}
+
+
+  factory Property.fromJson(Map<String, dynamic> json) {
+    PropertyStatus parseStatus(String? status) {
+      switch (status?.toLowerCase()) {
+        case 'rent':
+          return PropertyStatus.Rent;
+        case 'sale':
+        default:
+          return PropertyStatus.Sale;
+      }
+    }
+
+    PropertyType parseType(String? type) {
+      switch (type?.toLowerCase()) {
+        case 'house':
+          return PropertyType.House;
+        case 'villa':
+          return PropertyType.Villa;
+        case 'apartment':
+        default:
+          return PropertyType.Apartment;
+      }
+    }
+
+    return Property(
+      id: json['id']?.toString() ?? 'N/A',
+      imageUrl: json['imageUrl'] ?? 'https://placehold.co/600x400',
+      title: json['title'] ?? 'Untitled',
+      description: json['description'] ?? 'No description available',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      priceUnit: json['priceUnit'] ?? 'asking',
+      status: parseStatus(json['status']),
+      type: parseType(json['type']),
+      beds: json['beds'] ?? 0,
+      baths: json['baths'] ?? 0,
+      receptions: json['receptions'] ?? 0,
+      areaSqft: (json['areaSqft'] as num?)?.toDouble() ?? 0.0,
+      pricePerSqft: (json['pricePerSqft'] as num?)?.toDouble() ?? 0.0,
+      addedOn: json['addedOn'] ?? 'N/A',
+      agentName: json['agentName'] ?? 'Unknown Agent',
+      agentLogoUrl: json['agentLogoUrl'] ?? 'https://placehold.co/50x50?text=Agent',
+      mmpNo: json['mmpNo'] ?? 'N/A',
+      tenure: json['tenure'] ?? 'N/A',
+      address: json['address'] ?? 'N/A',
+      whatsappNumber: json['whatsappNumber'] ?? 'N/A',
+      isPremium: json['isPremium'] ?? false,
+      isFeatured: json['isFeatured'] ?? false,
+      isFavorite: json['isFavorite'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'imageUrl': imageUrl,
+      'title': title,
+      'description': description,
+      'price': price,
+      'priceUnit': priceUnit,
+      'status': status.name.toLowerCase(),
+      'type': type.name.toLowerCase(),
+      'beds': beds,
+      'baths': baths,
+      'receptions': receptions,
+      'areaSqft': areaSqft,
+      'pricePerSqft': pricePerSqft,
+      'addedOn': addedOn,
+      'agentName': agentName,
+      'agentLogoUrl': agentLogoUrl,
+      'mmpNo': mmpNo,
+      'tenure': tenure,
+      'address': address,
+      'whatsappNumber': whatsappNumber,
+      'isPremium': isPremium,
+      'isFeatured': isFeatured,
+      'isFavorite': isFavorite.value,
+    };
+  }
+}
