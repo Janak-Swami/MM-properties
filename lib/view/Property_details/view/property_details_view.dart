@@ -298,7 +298,36 @@ class PropertyDetailsView extends GetView<PropertyDetailsController> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      // final lat = property.latitude;
+                                      // final lng = property.longitude;
+                                      // if (lat == null || lng == null) {
+                                      //   Get.snackbar(
+                                      //     'Error',
+                                      //     'Location not available.',
+                                      //   );
+                                      //   return;
+                                      // }
+
+                                      // final label = Uri.encodeComponent(
+                                      //   property.title,
+                                      // );
+                                      // final googleMapsUrl =
+                                      //     "https://www.google.com/maps/search/?api=1&query=$lat,$lng($label)";
+
+                                      // final uri = Uri.parse(googleMapsUrl);
+                                      // if (await canLaunchUrl(uri)) {
+                                      //   await launchUrl(
+                                      //     uri,
+                                      //     mode: LaunchMode.externalApplication,
+                                      //   );
+                                      // } else {
+                                      //   Get.snackbar(
+                                      //     'Error',
+                                      //     'Could not open map.',
+                                      //   );
+                                      // }
+                                    },
                                     child: Row(
                                       children: [
                                         const Icon(
@@ -481,7 +510,36 @@ class PropertyDetailsView extends GetView<PropertyDetailsController> {
                                 bottom: 0,
                                 right: 0,
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    // final lat = property.latitude;
+                                    // final lng = property.longitude;
+                                    // if (lat == null || lng == null) {
+                                    //   Get.snackbar(
+                                    //     'Error',
+                                    //     'Location not available.',
+                                    //   );
+                                    //   return;
+                                    // }
+
+                                    // final label = Uri.encodeComponent(
+                                    //   property.title,
+                                    // );
+                                    // final googleMapsUrl =
+                                    //     "https://www.google.com/maps/search/?api=1&query=$lat,$lng($label)";
+
+                                    // final uri = Uri.parse(googleMapsUrl);
+                                    // if (await canLaunchUrl(uri)) {
+                                    //   await launchUrl(
+                                    //     uri,
+                                    //     mode: LaunchMode.externalApplication,
+                                    //   );
+                                    // } else {
+                                    //   Get.snackbar(
+                                    //     'Error',
+                                    //     'Could not open map.',
+                                    //   );
+                                    // }
+                                  },
                                   child: Container(
                                     width: 340,
                                     height: 56,
@@ -566,18 +624,24 @@ class PropertyDetailsView extends GetView<PropertyDetailsController> {
                 backgroundColor: Colors.green,
                 onPressed: () async {
                   final phone = property.whatsappNumber;
+                  if (phone == null || phone.isEmpty) {
+                    Get.snackbar(
+                      'Invalid Number',
+                      'WhatsApp number not available.',
+                    );
+                    return;
+                  }
+
                   final message = Uri.encodeComponent(
                     "Hello! I'm interested in your property '${property.title}' listed on MM Properties.",
                   );
                   final whatsappUrl = "https://wa.me/$phone?text=$message";
 
-                  if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
-                    await launchUrl(
-                      Uri.parse(whatsappUrl),
-                      mode: LaunchMode.externalApplication,
-                    );
+                  final uri = Uri.parse(whatsappUrl);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
                   } else {
-                    Get.snackbar('Error', 'WhatsApp is not available.');
+                    Get.snackbar('Error', 'Could not launch WhatsApp.');
                   }
                 },
                 child: Image.asset(

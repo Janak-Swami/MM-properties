@@ -26,13 +26,13 @@ class AppPages {
       name: AppRoutes.onBoarding,
       page: () => const OnboardingView(),
       binding: OnboardingBinding(),
+      transition: Transition.rightToLeftWithFade,
+      transitionDuration: Duration(milliseconds: 150),
     ),
     GetPage(
       name: AppRoutes.home,
       page: () => const HomeView(),
       binding: HomeBinding(),
-      transition: Transition.rightToLeftWithFade,
-      transitionDuration: Duration(milliseconds: 150),
     ),
     GetPage(name: AppRoutes.favorites, page: () => const FavoriteView()),
     GetPage(
